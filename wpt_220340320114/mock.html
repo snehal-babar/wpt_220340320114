@@ -1,0 +1,83 @@
+<html>
+<body>
+<label>Book id</label><input type="text" name="" id="bookid">
+<span id="msg">message(what happened book added or not)</span><br><br>
+<label>book name</label><input type="text" name="" id="bookname"><br><br>
+<label>price</label><input type="text" name="" id="price"><br><br>
+<input type="button" name="" id="add" value="add abook"><br><br>
+<p id="msg2">show all books here</p>
+
+
+</body>
+
+<script src="jquery-3.5.1.min.js"></script>
+<script>//our scrip will come here 
+
+
+
+$(document).ready(function()
+{
+console.log("no more sins");
+$("#add").click( ()=>{ 
+	
+		// //console.log("jquery works");
+		alert("jquery works")
+		let input={
+			bookid:$("#bookid").val(),
+			bookname:$("#bookname").val(),
+			price:$("#price").val()
+		};
+		let object={
+			data:input,
+			url:"http://localhost:8081/addbooks",
+			type:'get',
+			datatype:'json',
+			success:(responsefromserver)=>{
+				if(responsefromserver.status == true){
+					$("#msg").html("book added");
+				}
+				else{
+					$("#msg").html("book not added");
+				}
+			},
+			error:(errorfromserver)=>{
+					console.log("error");
+			}
+		};
+		$.ajax(object);
+		
+
+	});
+	$("#add").click( ()=>{ 
+	
+	// //console.log("jquery works");
+	alert("jquery works")
+	let input="";
+	let object2={
+		data:input,
+		url:"http://localhost:8081/showall",
+		type:'get',
+		datatype:'json',
+		success:(responsefromserver)=>{
+			let array="";
+			for(let i=0;i<responsefromserver.length;i++){
+				array+="<br>"+responsefromserver[i].bookid+" "+responsefromserver[i].bookname+" "+responsefromserver[i].price;
+				$("#msg2").html(array);
+			}
+		},
+		error:(errorfromserver)=>{
+				console.log("error");
+		}
+	};
+	$.ajax(object2);
+	
+
+});
+	
+});
+
+
+</script>
+
+
+</html>
